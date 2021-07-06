@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load colorize %}
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add an Item for Tracking</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST" autocomplete="off">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-primary my-2">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class=" col">
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">Add</button>
+        <a href="{% url 'Update' %}"><button class="btn btn-info">Update</button></a>
+    </div>
+    <div class=" col" style="text-align:right">
+        <div><strong>Total Number of Items Being Tracked: {{items_no}}</strong></div>
+        <div><strong>Discounted items: {{no_discounted}}</strong></div>
+    </div>
+</div>
+{% if qs %}
+    {% for item in qs%}
+    <div class="card mt-3">
+        <img src="{{item.image_url}}" class="card-img-top" alt="Product Image" style="max-width: 500px;max-height: 400px;margin-left: 400px;">
+        <div class="card-header">
+                <h5>{{item.name}}</h5>
+                <a href="{% url 'delete' item.pk %}"><button class="btn btn-danger">Delete</button></a>
+        </div>
+            <div class="card-body">
+                <div class="blockquote">
+                <div>Deal: {{item.deal}}</div>
+                <div>Current Price: Rs {{item.current_price}}</div>
+                <div>Old Price: Rs {{item.old_price}}</div>
+                <div>Difference :Rs {{item.price_difference|colorize}}</div>
+                <div>Item Link:<a href="{{item.url}}">{{item.url}}</a></div>
+                </div>
+            </div>
+        
+    </div>
+    {% endfor %}
+{% else %}
+    <h3>No items being tracked...</h3>
+{% endif %}
+
+{% endblock content%}
