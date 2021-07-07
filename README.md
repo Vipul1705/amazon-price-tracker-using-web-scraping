@@ -31,7 +31,7 @@ Amazon price track is used to track the price of the product and deal offer on i
 5. You can add as many links as you want.
 6. Prices get updated by clicking on update button.
 
-## Project Used for Other Website
+## Project can be used for Other Website
 
 You can use this project to track other website's product & their prices. You have to change the product titles id and price id by inspecting the html of the website.
 
